@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cari Harga Buku</title>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f5f6fa;
+      margin: 0;
+      padding: 15px;
+    }
+
+    .container {
+      max-width: 500px;
+      margin: auto;
+      background: white;
+      padding: 20px;
+      border-radius: 14px;
+      box-shadow: 0 6px 14px rgba(0,0,0,0.08);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 15px;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      margin-bottom: 15px;
+    }
+
+    .item {
+      padding: 12px;
+      border-bottom: 1px solid #eee;
+    }
+
+    .harga {
+      font-weight: bold;
+      color: #2c7be5;
+      font-size: 16px;
+    }
+
+    button {
+      margin-top: 8px;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 6px;
+      background: #2c7be5;
+      color: white;
+      cursor: pointer;
+      font-size: 12px;
+    }
+
+    button:active {
+      opacity: 0.7;
+    }
+
+    .empty {
+      text-align: center;
+      color: #888;
+      margin-top: 10px;
+    }
+
+    .copied {
+      color: green;
+      font-size: 12px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+    <h2>📚 Cari Harga Buku</h2>
+    <input type="text" id="search" placeholder="Ketik nama / kata kunci...">
+
+    <div id="hasil"></div>
+  </div>
+
+  <script>
+    const data = [
+      { nama: "10 menit jago baca", harga: "Rp21.000" },
+      { nama: "30 dongeng sebelum tidur", harga: "Rp25.000" },
+      { nama: "400 kosakata", harga: "Rp9.000" },
+      { nama: "60 jam belajar membaca", harga: "Rp25.000" },
+      { nama: "7 surat", harga: "Rp19.000" },
+      { nama: "iq anak", harga: "Rp7.500" },
+      { nama: "jus amma super lengkap", harga: "Rp38.000" },
+      { nama: "kisah 25 nabi dan rasul", harga: "Rp20.000" },
+      { nama: "lancar baca", harga: "Rp30.000" },
+      { nama: "mengenal huruf a-z", harga: "Rp7.500" },
+      { nama: "pengurangan 1-100", harga: "Rp7.500" },
+      { nama: "pintar berhitung", harga: "Rp7.500" },
+      { nama: "pintar berhitung tk", harga: "Rp7.500" },
+      { nama: "pintar membaca tanpa dieja", harga: "Rp7.500" },
+      { nama: "pintar menulis rapi", harga: "Rp7.500" },
+      { nama: "sikecil jago eksperimen 2", harga: "Rp22.000" },
+      { nama: "tbun", harga: "Rp44.000" }
+    ];
+
+    const searchInput = document.getElementById("search");
+    const hasilDiv = document.getElementById("hasil");
+
+    searchInput.addEventListener("input", function() {
+      let input = this.value.toLowerCase();
+      let hasil = data.filter(item => item.nama.includes(input));
+      tampilkan(hasil);
+    });
+
+    function copyText(text, el) {
+      navigator.clipboard.writeText(text);
+      el.innerHTML = "Copied!";
+      el.classList.add("copied");
+
+      setTimeout(() => {
+        el.innerHTML = "Copy Harga";
+        el.classList.remove("copied");
+      }, 1500);
+    }
+
+    function tampilkan(list) {
+      if (list.length === 0) {
+        hasilDiv.innerHTML = "<div class='empty'>Buku tidak ditemukan</div>";
+        return;
+      }
+
+      hasilDiv.innerHTML = list.map(item => `
+        <div class="item">
+          ${item.nama}<br>
+          <span class="harga">${item.harga}</span><br>
+          <button onclick="copyText('${item.harga}', this)">Copy Harga</button>
+        </div>
+      `).join("");
+    }
+  </script>
+</body>
+</html>
