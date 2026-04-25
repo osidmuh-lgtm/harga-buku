@@ -26,16 +26,13 @@
       margin-bottom: 15px;
     }
 
-    h2, h3 {
-      margin: 0 0 10px;
-    }
-
     input {
       width: 100%;
       padding: 14px;
       border-radius: 10px;
       border: 1px solid #ddd;
       font-size: 16px;
+      margin-bottom: 10px;
     }
 
     .item {
@@ -49,7 +46,7 @@
     }
 
     button {
-      margin-top: 6px;
+      margin-top: 5px;
       padding: 6px 10px;
       border: none;
       border-radius: 8px;
@@ -57,16 +54,10 @@
       cursor: pointer;
     }
 
-    .btn-add {
-      background: #2c7be5;
-      color: white;
-    }
-
-    .btn-remove {
-      background: #ff4d4f;
-      color: white;
-      margin-left: 5px;
-    }
+    .btn-add { background: #2c7be5; color: white; }
+    .btn-remove { background: #ff4d4f; color: white; }
+    .btn-wa { background: #25d366; color: white; width: 100%; margin-top:10px; }
+    .btn-copy { background: #28a745; color: white; width: 100%; }
 
     .total {
       font-size: 20px;
@@ -75,49 +66,43 @@
       margin-top: 10px;
     }
 
-    .btn-copy {
-      background: #28a745;
-      color: white;
-      width: 100%;
-      padding: 10px;
-      margin-top: 10px;
-      font-size: 14px;
-    }
-
     .empty {
-      color: #888;
       text-align: center;
+      color: #888;
       padding: 10px;
     }
   </style>
 </head>
 
 <body>
-  <div class="container">
+<div class="container">
 
-    <div class="card">
-      <h2>📚 Kasir Buku</h2>
-      <input type="text" id="search" placeholder="Cari buku...">
-      <div id="hasil"></div>
-    </div>
-
-    <div class="card">
-      <h3>🛒 Keranjang</h3>
-      <div id="cartList"></div>
-      <div class="total" id="total">Total: Rp0</div>
-      <button class="btn-copy" onclick="copyTotal()">Copy Total</button>
-    </div>
-
+  <div class="card">
+    <h2>📚 Kasir Buku</h2>
+    <input type="text" id="search" placeholder="Cari buku...">
+    <div id="hasil"></div>
   </div>
 
-  <script>
-    const data = [
-      { nama: "60 jam belajar membaca", harga: 25000 },
-      { nama: "iq anak", harga: 7500 },
-      { nama: "jus amma super lengkap", harga: 38000 },
-      { nama: "kisah 25 nabi dan rasul", harga: 20000 },
-      { nama: "pintar menulis rapi", harga: 7500 },
-      { nama: "lancar baca", harga: 30000 },
+  <div class="card">
+    <h3>🛒 Keranjang</h3>
+    <input type="text" id="namaBuyer" placeholder="Nama pembeli...">
+    <div id="cartList"></div>
+    <div class="total" id="total">Total: Rp0</div>
+
+    <button class="btn-copy" onclick="copyTotal()">Copy Total</button>
+    <button class="btn-wa" onclick="kirimWA()">Kirim ke WhatsApp</button>
+  </div>
+
+</div>
+
+<script>
+const data = [
+  { nama: "60 jam belajar membaca", harga: 25000 },
+  { nama: "iq anak", harga: 7500 },
+  { nama: "jus amma super lengkap", harga: 38000 },
+  { nama: "kisah 25 nabi dan rasul", harga: 20000 },
+  { nama: "pintar menulis rapi", harga: 7500 },
+  { nama: "lancar baca", harga: 30000 },
   { nama: "super lengkap 6 in 1", harga: 43500 },
   { nama: "30 dongeng sebelum tidur", harga: 26500 },
   { nama: "ayo baca sendiri dongeng pertamaku", harga: 23500 },
@@ -150,76 +135,130 @@
   { nama: "paud kreatif mewarnai transportasi", harga: 7500 },
   { nama: "penjumlahan & pengurangan bersusun 1-1000", harga: 19500 }
 ];
-      
-    ];
 
-    let cart = [];
+let cart = [];
 
-    const searchInput = document.getElementById("search");
-    const hasilDiv = document.getElementById("hasil");
-    const cartList = document.getElementById("cartList");
-    const totalDiv = document.getElementById("total");
+const hasilDiv = document.getElementById("hasil");
+const cartList = document.getElementById("cartList");
+const totalDiv = document.getElementById("total");
 
-    searchInput.addEventListener("input", function() {
-      let input = this.value.toLowerCase();
-      let hasil = data.filter(item => item.nama.includes(input));
-      tampilkan(hasil);
-    });
+document.getElementById("search").addEventListener("input", function() {
+  let input = this.value.toLowerCase();
+  let hasil = data.filter(item => item.nama.toLowerCase().includes(input));
+  tampilkan(hasil);
+});
 
-    function tampilkan(list) {
-      if (list.length === 0) {
-        hasilDiv.innerHTML = "<div class='empty'>Tidak ditemukan</div>";
-        return;
-      }
+function tampilkan(list) {
+  if (list.length === 0) {
+    hasilDiv.innerHTML = "<div class='empty'>Tidak ditemukan</div>";
+    return;
+  }
 
-      hasilDiv.innerHTML = list.map(item => `
-        <div class="item">
-          ${item.nama}<br>
-          <span class="price">Rp${item.harga.toLocaleString()}</span><br>
-          <button class="btn-add" onclick="tambah('${item.nama}', ${item.harga})">Tambah</button>
-        </div>
-      `).join("");
-    }
+  hasilDiv.innerHTML = list.map(item => `
+    <div class="item">
+      ${item.nama}<br>
+      <span class="price">Rp${item.harga.toLocaleString()}</span><br>
+      <button class="btn-add" onclick="tambah('${item.nama}', ${item.harga})">Tambah</button>
+    </div>
+  `).join("");
+}
 
-    function tambah(nama, harga) {
-      cart.push({ nama, harga });
-      renderCart();
-    }
+function tambah(nama, harga) {
+  let existing = cart.find(item => item.nama === nama);
 
-    function hapus(index) {
-      cart.splice(index, 1);
-      renderCart();
-    }
+  if (existing) {
+    existing.qty += 1;
+  } else {
+    cart.push({ nama, harga, qty: 1 });
+  }
 
-    function renderCart() {
-      let total = 0;
+  renderCart();
+}
 
-      if (cart.length === 0) {
-        cartList.innerHTML = "<div class='empty'>Belum ada item</div>";
-        totalDiv.innerHTML = "Total: Rp0";
-        return;
-      }
+function kurang(index) {
+  if (cart[index].qty > 1) {
+    cart[index].qty -= 1;
+  } else {
+    cart.splice(index, 1);
+  }
+  renderCart();
+}
 
-      cartList.innerHTML = cart.map((item, i) => {
-        total += item.harga;
-        return `
-          <div class="item">
-            ${item.nama}<br>
-            Rp${item.harga.toLocaleString()}
-            <button class="btn-remove" onclick="hapus(${i})">Hapus</button>
-          </div>
-        `;
-      }).join("");
+function hapus(index) {
+  cart.splice(index, 1);
+  renderCart();
+}
 
-      totalDiv.innerHTML = "Total: Rp" + total.toLocaleString();
-    }
+function renderCart() {
+  let total = 0;
 
-    function copyTotal() {
-      let text = totalDiv.innerText;
-      navigator.clipboard.writeText(text);
-      alert("Total berhasil disalin!");
-    }
-  </script>
+  if (cart.length === 0) {
+    cartList.innerHTML = "<div class='empty'>Belum ada item</div>";
+    totalDiv.innerHTML = "Total: Rp0";
+    return;
+  }
+
+  cartList.innerHTML = cart.map((item, i) => {
+    let subtotal = item.harga * item.qty;
+    total += subtotal;
+
+    return `
+      <div class="item">
+        <b>${item.nama}</b><br>
+        Rp${item.harga.toLocaleString()} x ${item.qty} = 
+        <b>Rp${subtotal.toLocaleString()}</b><br>
+
+        <button onclick="kurang(${i})">-</button>
+        <button onclick="tambah('${item.nama}', ${item.harga})">+</button>
+        <button class="btn-remove" onclick="hapus(${i})">Hapus</button>
+      </div>
+    `;
+  }).join("");
+
+  totalDiv.innerHTML = "Total: Rp" + total.toLocaleString();
+}
+
+function copyTotal() {
+  let text = totalDiv.innerText;
+
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(text);
+  } else {
+    let textarea = document.createElement("textarea");
+    textarea.value = text;
+    document.body.appendChild(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    document.body.removeChild(textarea);
+  }
+
+  alert("Total disalin!");
+}
+
+function kirimWA() {
+  if (cart.length === 0) {
+    alert("Keranjang kosong!");
+    return;
+  }
+
+  let nama = document.getElementById("namaBuyer").value || "Customer";
+  let text = `Halo, saya mau order:%0A%0A`;
+
+  let total = 0;
+
+  cart.forEach(item => {
+    let subtotal = item.harga * item.qty;
+    total += subtotal;
+    text += `- ${item.nama} (${item.qty}) = Rp${subtotal.toLocaleString()}%0A`;
+  });
+
+  text += `%0ATotal: Rp${total.toLocaleString()}%0A`;
+  text += `%0ANama: ${nama}`;
+
+  let url = `https://wa.me/?text=${text}`;
+  window.open(url, '_blank');
+}
+</script>
 
 </body>
 </html>
