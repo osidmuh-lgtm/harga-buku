@@ -2,261 +2,222 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
+  <title>Kasir Buku Anak</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Kasir Buku</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
 
   <style>
     body {
-      font-family: 'Segoe UI', sans-serif;
-      background: #f0f2f5;
-      margin: 0;
-      padding: 15px;
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(to bottom, #fef9c3, #bae6fd);
+      padding: 10px;
     }
 
     .container {
-      max-width: 520px;
+      max-width: 360px; /* 🔥 lebih compact */
       margin: auto;
-    }
-
-    .card {
       background: white;
+      padding: 15px;
       border-radius: 16px;
-      padding: 18px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-      margin-bottom: 15px;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
     }
 
-    input {
-      width: 100%;
-      padding: 14px;
-      border-radius: 10px;
-      border: 1px solid #ddd;
-      font-size: 16px;
+    h2 {
+      text-align: center;
+      font-size: 18px;
       margin-bottom: 10px;
+      color: #f97316;
     }
 
-    .item {
-      padding: 10px 0;
-      border-bottom: 1px solid #eee;
-    }
-
-    .price {
-      font-weight: bold;
-      color: #2c7be5;
+    select, input {
+      width: 100%;
+      padding: 10px;
+      margin: 5px 0;
+      border-radius: 10px;
+      border: 2px solid #e2e8f0;
+      font-size: 13px;
     }
 
     button {
-      margin-top: 5px;
-      padding: 6px 10px;
+      width: 100%;
+      padding: 10px;
+      border-radius: 10px;
       border: none;
-      border-radius: 8px;
-      font-size: 12px;
+      font-weight: bold;
+      font-size: 13px;
       cursor: pointer;
     }
 
-    .btn-add { background: #2c7be5; color: white; }
-    .btn-remove { background: #ff4d4f; color: white; }
-    .btn-wa { background: #25d366; color: white; width: 100%; margin-top:10px; }
-    .btn-copy { background: #28a745; color: white; width: 100%; }
-
-    .total {
-      font-size: 20px;
-      font-weight: bold;
-      color: green;
-      margin-top: 10px;
+    .btn-add {
+      background: #22c55e;
+      color: white;
     }
 
-    .empty {
-      text-align: center;
-      color: #888;
+    .btn-delete {
+      background: #f87171;
+      color: white;
+      margin-top: 6px;
+      font-size: 12px;
+      padding: 6px;
+    }
+
+    .item {
+      background: #f0f9ff;
+      padding: 8px;
+      border-radius: 10px;
+      margin-top: 8px;
+      border: 1.5px dashed #bae6fd;
+      font-size: 12px;
+    }
+
+    .item b {
+      font-size: 13px;
+    }
+
+    .row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 5px;
+    }
+
+    .qty-input {
+      width: 60px;
+      padding: 4px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+      font-size: 12px;
+    }
+
+    .summary {
+      margin-top: 12px;
       padding: 10px;
+      background: #fff7ed;
+      border-radius: 12px;
+      border: 1.5px solid #fdba74;
+      font-size: 13px;
     }
+
+    .summary h3 {
+      font-size: 14px;
+      margin-bottom: 5px;
+    }
+
   </style>
 </head>
 
 <body>
+
 <div class="container">
+  <h2>📚 Kasir Buku</h2>
 
-  <div class="card">
-    <h2>📚 Kasir Buku</h2>
-    <input type="text" id="search" placeholder="Cari buku...">
-    <div id="hasil"></div>
-  </div>
+  <select id="product">
+    <option value="">📖 Pilih Buku</option>
+  </select>
 
-  <div class="card">
-    <h3>🛒 Keranjang</h3>
-    <input type="text" id="namaBuyer" placeholder="Nama pembeli...">
-    <div id="cartList"></div>
-    <div class="total" id="total">Total: Rp0</div>
+  <input type="number" id="qty" placeholder="Qty">
 
-    <button class="btn-copy" onclick="copyTotal()">Copy Total</button>
-    <button class="btn-wa" onclick="kirimWA()">Kirim ke WhatsApp</button>
-  </div>
+  <button class="btn-add" onclick="tambahItem()">➕ Tambah</button>
 
+  <div id="list"></div>
+
+  <div class="summary" id="summary"></div>
 </div>
 
 <script>
-const data = [
-  { nama: "60 jam belajar membaca", harga: 25000 },
-  { nama: "iq anak", harga: 7500 },
-  { nama: "jus amma super lengkap", harga: 38000 },
-  { nama: "kisah 25 nabi dan rasul", harga: 20000 },
-  { nama: "pintar menulis rapi", harga: 7500 },
-  { nama: "lancar baca", harga: 30000 },
-  { nama: "super lengkap 6 in 1", harga: 43500 },
-  { nama: "30 dongeng sebelum tidur", harga: 26500 },
-  { nama: "ayo baca sendiri dongeng pertamaku", harga: 23500 },
-  { nama: "ayo baca sendiri dongeng sopan santun", harga: 23500 },
-  { nama: "ayo baca sendiri kisah 25 nabi dan rasul", harga: 26500 },
-  { nama: "hafal hadist lewat cerita sehari-hari", harga: 19700 },
-  { nama: "60 jam baca tulis tanpa dieja", harga: 27500 },
-  { nama: "60 jam lancar baca lewat cerita", harga: 21500 },
-  { nama: "10 menit jago baca tanpa dieja", harga: 21500 },
-  { nama: "10 menit jago calistung tk", harga: 21500 },
-  { nama: "siap siap masuk sd jago calistung tk", harga: 19500 },
-  { nama: "siap siap masuk sd penjumlahan pengurangan", harga: 7500 },
-  { nama: "golden age book mengenal angka 1-10", harga: 23500 },
-  { nama: "golden age book dasar-dasar calistung", harga: 23500 },
-  { nama: "wipe and clean aktivitas pertamaku usia 3+", harga: 23500 },
-  { nama: "aku bisa menulis dengan rapi", harga: 16500 },
-  { nama: "latihan menulis tegak bersambung", harga: 16500 },
-  { nama: "latihan menulis dengan rapi", harga: 16500 },
-  { nama: "pintar menulis dengan rapi", harga: 7500 },
-  { nama: "pintar membaca tanpa mengeja", harga: 7500 },
-  { nama: "pintar berhitung tk", harga: 7500 },
-  { nama: "latihan kecerdasan iq anak", harga: 7500 },
-  { nama: "mengenal huruf a-z", harga: 7500 },
-  { nama: "penjumlahan 1-100", harga: 11000 },
-  { nama: "pengurangan 1-100", harga: 7500 },
-  { nama: "menulis 400 kosa kata bahasa inggris", harga: 10500 },
-  { nama: "paud kreatif mewarnai dinosaurus", harga: 7500 },
-  { nama: "paud kreatif mewarnai hewan lucu", harga: 7500 },
-  { nama: "paud kreatif mewarnai mobil balap", harga: 7500 },
-  { nama: "paud kreatif mewarnai transportasi", harga: 7500 },
-  { nama: "penjumlahan & pengurangan bersusun 1-1000", harga: 19500 }
+const dataProduk = [
+  { nama: "SUPER LENGKAP 6 IN 1", jual: 65000, modal: 43500 },
+  { nama: "30 DONGENG SEBELUM TIDUR", jual: 39000, modal: 26500 },
+  { nama: "60 JAM BACA", jual: 41000, modal: 27500 },
+  { nama: "AYO BACA SENDIRI", jual: 35000, modal: 23500 },
+  { nama: "IQ Anak", jual: 13000, modal: 9000 },
+  { nama: "Juz Amma Super Lengkap", jual: 56000, modal: 39500 },
+  { nama: "Lancar Baca", jual: 45000, modal: 31500 },
+  { nama: "TBUN", jual: 65000, modal: 45500 }
 ];
 
-let cart = [];
+let keranjang = [];
 
-const hasilDiv = document.getElementById("hasil");
-const cartList = document.getElementById("cartList");
-const totalDiv = document.getElementById("total");
-
-document.getElementById("search").addEventListener("input", function() {
-  let input = this.value.toLowerCase();
-  let hasil = data.filter(item => item.nama.toLowerCase().includes(input));
-  tampilkan(hasil);
+const select = document.getElementById("product");
+dataProduk.forEach(p => {
+  let opt = document.createElement("option");
+  opt.value = p.nama;
+  opt.textContent = p.nama;
+  select.appendChild(opt);
 });
 
-function tampilkan(list) {
-  if (list.length === 0) {
-    hasilDiv.innerHTML = "<div class='empty'>Tidak ditemukan</div>";
+function tambahItem() {
+  const nama = document.getElementById("product").value;
+  const qty = parseInt(document.getElementById("qty").value);
+
+  if (!nama || !qty) {
+    alert("Isi dulu ya 😊");
     return;
   }
 
-  hasilDiv.innerHTML = list.map(item => `
-    <div class="item">
-      ${item.nama}<br>
-      <span class="price">Rp${item.harga.toLocaleString()}</span><br>
-      <button class="btn-add" onclick="tambah('${item.nama}', ${item.harga})">Tambah</button>
-    </div>
-  `).join("");
-}
+  const produk = dataProduk.find(p => p.nama === nama);
 
-function tambah(nama, harga) {
-  let existing = cart.find(item => item.nama === nama);
-
-  if (existing) {
-    existing.qty += 1;
-  } else {
-    cart.push({ nama, harga, qty: 1 });
-  }
-
-  renderCart();
-}
-
-function kurang(index) {
-  if (cart[index].qty > 1) {
-    cart[index].qty -= 1;
-  } else {
-    cart.splice(index, 1);
-  }
-  renderCart();
-}
-
-function hapus(index) {
-  cart.splice(index, 1);
-  renderCart();
-}
-
-function renderCart() {
-  let total = 0;
-
-  if (cart.length === 0) {
-    cartList.innerHTML = "<div class='empty'>Belum ada item</div>";
-    totalDiv.innerHTML = "Total: Rp0";
-    return;
-  }
-
-  cartList.innerHTML = cart.map((item, i) => {
-    let subtotal = item.harga * item.qty;
-    total += subtotal;
-
-    return `
-      <div class="item">
-        <b>${item.nama}</b><br>
-        Rp${item.harga.toLocaleString()} x ${item.qty} = 
-        <b>Rp${subtotal.toLocaleString()}</b><br>
-
-        <button onclick="kurang(${i})">-</button>
-        <button onclick="tambah('${item.nama}', ${item.harga})">+</button>
-        <button class="btn-remove" onclick="hapus(${i})">Hapus</button>
-      </div>
-    `;
-  }).join("");
-
-  totalDiv.innerHTML = "Total: Rp" + total.toLocaleString();
-}
-
-function copyTotal() {
-  let text = totalDiv.innerText;
-
-  if (navigator.clipboard) {
-    navigator.clipboard.writeText(text);
-  } else {
-    let textarea = document.createElement("textarea");
-    textarea.value = text;
-    document.body.appendChild(textarea);
-    textarea.select();
-    document.execCommand("copy");
-    document.body.removeChild(textarea);
-  }
-
-  alert("Total disalin!");
-}
-
-function kirimWA() {
-  if (cart.length === 0) {
-    alert("Keranjang kosong!");
-    return;
-  }
-
-  let nama = document.getElementById("namaBuyer").value || "Customer";
-  let text = `Halo, saya mau order:%0A%0A`;
-
-  let total = 0;
-
-  cart.forEach(item => {
-    let subtotal = item.harga * item.qty;
-    total += subtotal;
-    text += `- ${item.nama} (${item.qty}) = Rp${subtotal.toLocaleString()}%0A`;
+  keranjang.push({
+    nama,
+    qty,
+    jual: produk.jual,
+    modal: produk.modal
   });
 
-  text += `%0ATotal: Rp${total.toLocaleString()}%0A`;
-  text += `%0ANama: ${nama}`;
+  render();
+}
 
-  let url = `https://wa.me/?text=${text}`;
-  window.open(url, '_blank');
+function hapusItem(index) {
+  keranjang.splice(index, 1);
+  render();
+}
+
+function updateQty(index, newQty) {
+  keranjang[index].qty = parseInt(newQty) || 0;
+  render();
+}
+
+function render() {
+  const list = document.getElementById("list");
+  list.innerHTML = "";
+
+  let totalOmzet = 0;
+  let totalModal = 0;
+  let totalProfit = 0;
+
+  keranjang.forEach((item, index) => {
+    const omzet = item.jual * item.qty;
+    const modal = item.modal * item.qty;
+    const profit = omzet - modal;
+
+    totalOmzet += omzet;
+    totalModal += modal;
+    totalProfit += profit;
+
+    list.innerHTML += `
+      <div class="item">
+        <b>📘 ${item.nama}</b>
+        <div class="row">
+          Qty:
+          <input class="qty-input" type="number" value="${item.qty}" 
+          onchange="updateQty(${index}, this.value)">
+        </div>
+        <div class="row">
+          <span>📦 Rp ${modal.toLocaleString()}</span>
+          <span>💰 Rp ${profit.toLocaleString()}</span>
+        </div>
+        <button class="btn-delete" onclick="hapusItem(${index})">Hapus</button>
+      </div>
+    `;
+  });
+
+  document.getElementById("summary").innerHTML = `
+    <h3>📊 Ringkasan</h3>
+    <p>Omzet: Rp ${totalOmzet.toLocaleString()}</p>
+    <p>Modal: Rp ${totalModal.toLocaleString()}</p>
+    <p><b>Profit: Rp ${totalProfit.toLocaleString()}</b></p>
+  `;
 }
 </script>
 
