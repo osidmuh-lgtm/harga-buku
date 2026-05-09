@@ -1,198 +1,172 @@
-const daftarBuku = [
-  { nama: 'SUPER LENGKAP 6 IN 1', modal: 42000, hargaJual: 52650 },
-  { nama: '30 DONGENG SEBELUM TIDUR', modal: 25000, hargaJual: 31590 },
-  { nama: '60 JAM BACA TULIS TANPA DIEJA - NEW', modal: 26000, hargaJual: 33210 },
-  { nama: 'AYO BACA SENDIRI DONGENG SOPAN SANTUN', modal: 22000, hargaJual: 28350 },
-  { nama: '(SIAP-SIAP MASUK SD) JAGO CALISTUNG TK', modal: 18000, hargaJual: 23490 },
-  { nama: 'AYO BACA SENDIRI BUKU DONGENG PERTAMAKU', modal: 22000, hargaJual: 28350 },
-  { nama: 'AYOU BACA SENDIRI KISAH 25 NABI DAN RASUL', modal: 25000, hargaJual: 31590 },
-  { nama: '(SIAP-SIAP MASUK SD) 10 Menit JAGO CALISTUNG TK', modal: 20000, hargaJual: 25920 },
-  { nama: '(SIAP-SIAP MASUK SD) 10 Menit JAGO BACA TANPA DI EJA', modal: 20000, hargaJual: 25920 },
-  { nama: '60 JAM LANCAR BACA LEWAT CERITA', modal: 20000, hargaJual: 25920 },
-  { nama: 'HAFAL HADIST LEWAT CERITA SEHARI-HARI', modal: 18200, hargaJual: 23490 },
-  { nama: 'AKU BISA MENULIS DENGAN RAPI', modal: 15000, hargaJual: 20250 },
-  { nama: 'LATIHAN MENULIS TEGAK BERSAMBUNG', modal: 15000, hargaJual: 20250 },
-  { nama: 'LATIHAN MENULIS DENGAN RAPIH', modal: 15000, hargaJual: 20250 },
-  { nama: 'PINTAR MENULIS DENGAN RAPI', modal: 7500, hargaJual: 10530 },
-  { nama: 'PINTAR MEMBACA TANPA MENGEJA', modal: 7500, hargaJual: 10530 },
-  { nama: 'PINTAR BERHITUNG TK', modal: 7500, hargaJual: 10530 },
-  { nama: 'SIAP SIAP MASUK SD BELAJAR PENJUMLAHAN PENGURANGAN', modal: 7500, hargaJual: 10530 },
-  { nama: 'LATIHAN KECERDASAN IQ ANAK', modal: 7500, hargaJual: 10530 },
-  { nama: 'MENGENAL HURUF A-Z', modal: 7500, hargaJual: 10530 },
-  { nama: 'PENJUMLAHAN 1-100', modal: 9500, hargaJual: 12960 },
-  { nama: 'PENGURANGAN 1-100', modal: 7500, hargaJual: 10530 },
-  { nama: 'MENULIS 400 KOSA KATA BAHASA INGGRIS', modal: 9000, hargaJual: 12960 },
-  { nama: 'PENJUMALAHAN & PENGURANGAN BERSUSUN 1-1000', modal: 7500, hargaJual: 23490 },
-  { nama: 'SI KECIL JAGO EXPERIMEN', modal: 18000, hargaJual: 22555 },
-  { nama: '10 menit jago membaca', modal: 21000, hargaJual: 26025 },
-  { nama: 'New 60 Jam', modal: 25000, hargaJual: 30652 },
-  { nama: '7 Surat', modal: 19000, hargaJual: 23712 },
-  { nama: 'Buku Cerita Anak Islam / Sirah Nabawi', modal: 20000, hargaJual: 24584 },
-  { nama: 'IQ Anak', modal: 7500, hargaJual: 10410 },
-  { nama: 'Jus Amma Super Lengkap', modal: 37000, hargaJual: 45689 },
-  { nama: 'Lancar Baca', modal: 30000, hargaJual: 36207 },
-  { nama: 'TBUN', modal: 44000, hargaJual: 52629 },
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Tools Profit Buku</title>
 
-  { nama: 'SUPER LENGKAP 6 IN 1', modal: 42000 },
-  { nama: '30 DONGENG SEBELUM TIDUR', modal: 25000 },
-  { nama: '60 JAM BACA TULIS TANPA DIEJA - NEW', modal: 26000 },
-  { nama: 'AYO BACA SENDIRI DONGENG SOPAN SANTUN', modal: 22000 },
-  { nama: '(SIAP-SIAP MASUK SD) JAGO CALISTUNG TK', modal: 18000 },
-  { nama: 'AYO BACA SENDIRI BUKU DONGENG PERTAMAKU', modal: 22000 },
-  { nama: 'AYOU BACA SENDIRI KISAH 25 NABI DAN RASUL', modal: 25000 },
-  { nama: '(SIAP-SIAP MASUK SD) 10 Menit JAGO CALISTUNG TK', modal: 20000 },
-  { nama: '(SIAP-SIAP MASUK SD) 10 Menit JAGO BACA TANPA DI EJA', modal: 20000 },
-  { nama: '60 JAM LANCAR BACA LEWAT CERITA', modal: 20000 },
-  { nama: 'HAFAL HADIST LEWAT CERITA SEHARI-HARI', modal: 18200 },
-  { nama: 'AKU BISA MENULIS DENGAN RAPI', modal: 15000 },
-  { nama: 'LATIHAN MENULIS TEGAK BERSAMBUNG', modal: 15000 },
-  { nama: 'LATIHAN MENULIS DENGAN RAPIH', modal: 15000 },
-  { nama: 'PINTAR MENULIS DENGAN RAPI', modal: 7500 },
-  { nama: 'PINTAR MEMBACA TANPA MENGEJA', modal: 7500 },
-  { nama: 'PINTAR BERHITUNG TK', modal: 7500 },
-  { nama: 'SIAP SIAP MASUK SD BELAJAR PENJUMLAHAN PENGURANGAN', modal: 7500 },
-  { nama: 'LATIHAN KECERDASAN IQ ANAK', modal: 7500 },
-  { nama: 'MENGENAL HURUF A-Z', modal: 7500 },
-  { nama: 'PENJUMLAHAN 1-100', modal: 9500 },
-  { nama: 'PENGURANGAN 1-100', modal: 7500 },
-  { nama: 'MENULIS 400 KOSA KATA BAHASA INGGRIS', modal: 9000 },
-  { nama: 'PENJUMALAHAN & PENGURANGAN BERSUSUN 1-1000', modal: 7500 },
-  { nama: 'SI KECIL JAGO EXPERIMEN', modal: 18000 },
-  { nama: '10 menit jago membaca', modal: 21000 },
-  { nama: 'New 60 Jam', modal: 25000 },
-  { nama: '7 Surat', modal: 19000 },
-  { nama: 'Buku Cerita Anak Islam / Sirah Nabawi', modal: 20000 },
-  { nama: 'IQ Anak', modal: 7500 },
-  { nama: 'Jus Amma Super Lengkap', modal: 37000 },
-  { nama: 'Lancar Baca', modal: 30000 },
-  { nama: 'TBUN', modal: 44000 },
-  { nama: '5 surat pilihan', modal: 12000 },
-]
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f3f4f6;
+      margin: 0;
+      padding: 20px;
+    }
 
-export default function DashboardBuku() {
-  return (
-    <div className="min-h-screen bg-gray-100 p-6">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-3xl font-bold mb-6">
-          Dashboard Penjualan Buku
-        </h1>
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 25px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    }
 
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-          <div className="bg-white rounded-2xl shadow p-5">
-            <p className="text-gray-500 text-sm">Total Omzet</p>
-            <h2 className="text-2xl font-bold">Rp 0</h2>
-          </div>
+    h1 {
+      margin-bottom: 20px;
+    }
 
-          <div className="bg-white rounded-2xl shadow p-5">
-            <p className="text-gray-500 text-sm">Total Profit</p>
-            <h2 className="text-2xl font-bold">Rp 0</h2>
-          </div>
+    label {
+      font-weight: bold;
+      display: block;
+      margin-top: 15px;
+      margin-bottom: 8px;
+    }
 
-          <div className="bg-white rounded-2xl shadow p-5">
-            <p className="text-gray-500 text-sm">ROAS</p>
-            <h2 className="text-2xl font-bold">0x</h2>
-          </div>
+    select,
+    input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      font-size: 16px;
+      box-sizing: border-box;
+    }
 
-          <div className="bg-white rounded-2xl shadow p-5">
-            <p className="text-gray-500 text-sm">Spend Iklan</p>
-            <h2 className="text-2xl font-bold">Rp 0</h2>
-          </div>
-        </div>
+    button {
+      width: 100%;
+      margin-top: 20px;
+      padding: 14px;
+      background: black;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+    }
 
-        <div className="bg-white rounded-2xl shadow p-6 mb-6">
-          <h2 className="text-xl font-semibold mb-4">Input Penjualan</h2>
+    .hasil {
+      margin-top: 25px;
+      background: #f9fafb;
+      padding: 20px;
+      border-radius: 15px;
+    }
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <input
-              className="border rounded-xl p-3"
-              list="daftar-buku"
-              placeholder="Nama Buku"
-            />
+    .hasil p {
+      margin: 10px 0;
+      font-size: 17px;
+    }
 
-            <input
-              className="border rounded-xl p-3"
-              placeholder="Qty"
-              type="number"
-            />
+    .profit {
+      font-size: 24px;
+      font-weight: bold;
+      color: green;
+    }
+  </style>
+</head>
+<body>
 
-            <input
-              className="border rounded-xl p-3"
-              placeholder="Biaya Iklan"
-              type="number"
-            />
+  <div class="container">
+    <h1>Tools Hitung Profit Buku</h1>
 
-            
+    <label>Nama Buku</label>
+    <select id="bukuSelect"></select>
 
-            
-          </div>
+    <label>Qty</label>
+    <input type="number" id="qty" placeholder="Masukkan qty" />
 
-          <datalist id="daftar-buku">
-              {daftarBuku.map((buku, index) => (
-                <option key={index} value={buku.nama} />
-              ))}
-            </datalist>
+    <label>Biaya Iklan</label>
+    <input type="number" id="iklan" placeholder="Masukkan biaya iklan" />
 
-          <div className="mt-5 bg-gray-50 rounded-2xl p-5 border">
-            <h3 className="font-semibold mb-3">Hasil Otomatis</h3>
+    <button onclick="hitungProfit()">Hitung Profit</button>
 
-            <div className="space-y-2 text-gray-700">
-              <p>Harga jual otomatis dari database</p>
-              <p>Modal otomatis dari database</p>
-              <p>Omzet otomatis berdasarkan qty</p>
-              <p>Profit otomatis setelah dikurangi biaya iklan</p>
-            </div>
-          </div>
-
-          <button className="mt-5 bg-black text-white px-5 py-3 rounded-xl">
-            Simpan Data
-          </button>
-        </div>
-
-        <div className="bg-white rounded-2xl shadow p-6 overflow-auto">
-          <h2 className="text-xl font-semibold mb-4">Rekap Penjualan</h2>
-
-          <table className="w-full border-collapse">
-            <thead>
-              <tr className="bg-gray-100 text-left">
-                <th className="p-3">Produk</th>
-                <th className="p-3">Qty</th>
-                <th className="p-3">Omzet</th>
-                <th className="p-3">Modal</th>
-                <th className="p-3">Iklan</th>
-                <th className="p-3">Biaya Iklan</th>
-                <th className="p-3">Profit</th>
-                <th className="p-3">ROAS</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr className="border-t">
-                <td className="p-3">Contoh Buku</td>
-                <td className="p-3">2</td>
-                <td className="p-3">Rp 98.000</td>
-                <td className="p-3">Rp 74.000</td>
-                <td className="p-3">Rp 10.000</td>
-                <td className="p-3">Rp 10.000</td>
-                <td className="p-3 text-green-600 font-semibold">Rp 4.000</td>
-                <td className="p-3">9.8</td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-
-        <div className="mt-6 bg-yellow-50 border border-yellow-200 rounded-2xl p-5">
-          <h2 className="font-semibold mb-2">Fitur yang Nanti Bisa Ditambahkan</h2>
-
-          <ul className="list-disc ml-5 text-gray-700 space-y-1">
-            <li>Auto ambil modal dari database buku</li>
-            <li>Import CSV Shopee</li>
-            <li>Grafik profit harian</li>
-            <li>Dashboard ROAS Meta Ads</li>
-            <li>Status campaign: SCALE / AMAN / BONCOS</li>
-            <li>Filter produk paling profit</li>
-          </ul>
-        </div>
-      </div>
+    <div class="hasil" id="hasil" style="display:none;">
+      <p id="hargaJual"></p>
+      <p id="modal"></p>
+      <p id="omzet"></p>
+      <p id="biayaIklan"></p>
+      <p class="profit" id="profit"></p>
     </div>
-  )
-}
+  </div>
+
+  <script>
+    const daftarBuku = [
+      { nama: 'SUPER LENGKAP 6 IN 1', modal: 42000, jual: 52650 },
+      { nama: '30 DONGENG SEBELUM TIDUR', modal: 25000, jual: 31590 },
+      { nama: '60 JAM BACA TULIS TANPA DIEJA - NEW', modal: 26000, jual: 33210 },
+      { nama: 'AYO BACA SENDIRI DONGENG SOPAN SANTUN', modal: 22000, jual: 28350 },
+      { nama: '(SIAP-SIAP MASUK SD) JAGO CALISTUNG TK', modal: 18000, jual: 23490 },
+      { nama: 'AYO BACA SENDIRI BUKU DONGENG PERTAMAKU', modal: 22000, jual: 28350 },
+      { nama: 'AYOU BACA SENDIRI KISAH 25 NABI DAN RASUL', modal: 25000, jual: 31590 },
+      { nama: '(SIAP-SIAP MASUK SD) 10 Menit JAGO CALISTUNG TK', modal: 20000, jual: 25920 },
+      { nama: '(SIAP-SIAP MASUK SD) 10 Menit JAGO BACA TANPA DI EJA', modal: 20000, jual: 25920 },
+      { nama: '60 JAM LANCAR BACA LEWAT CERITA', modal: 20000, jual: 25920 },
+      { nama: 'HAFAL HADIST LEWAT CERITA SEHARI-HARI', modal: 18200, jual: 23490 },
+      { nama: 'AKU BISA MENULIS DENGAN RAPI', modal: 15000, jual: 20250 },
+      { nama: 'LATIHAN MENULIS TEGAK BERSAMBUNG', modal: 15000, jual: 20250 },
+      { nama: 'LATIHAN MENULIS DENGAN RAPIH', modal: 15000, jual: 20250 },
+      { nama: 'PINTAR MENULIS DENGAN RAPI', modal: 7500, jual: 10530 },
+      { nama: 'PINTAR MEMBACA TANPA MENGEJA', modal: 7500, jual: 10530 },
+      { nama: 'PINTAR BERHITUNG TK', modal: 7500, jual: 10530 },
+      { nama: 'SIAP SIAP MASUK SD BELAJAR PENJUMLAHAN PENGURANGAN', modal: 7500, jual: 10530 },
+      { nama: 'LATIHAN KECERDASAN IQ ANAK', modal: 7500, jual: 10530 },
+      { nama: 'MENGENAL HURUF A-Z', modal: 7500, jual: 10530 },
+      { nama: 'PENJUMLAHAN 1-100', modal: 9500, jual: 12960 },
+      { nama: 'PENGURANGAN 1-100', modal: 7500, jual: 10530 },
+      { nama: 'MENULIS 400 KOSA KATA BAHASA INGGRIS', modal: 9000, jual: 12960 },
+      { nama: 'PENJUMALAHAN & PENGURANGAN BERSUSUN 1-1000', modal: 7500, jual: 23490 },
+      { nama: 'SI KECIL JAGO EXPERIMEN', modal: 18000, jual: 22555 },
+      { nama: '10 menit jago membaca', modal: 21000, jual: 26025 },
+      { nama: 'New 60 Jam', modal: 25000, jual: 30652 },
+      { nama: '7 Surat', modal: 19000, jual: 23712 },
+      { nama: 'Buku Cerita Anak Islam / Sirah Nabawi', modal: 20000, jual: 24584 },
+      { nama: 'IQ Anak', modal: 7500, jual: 10410 },
+      { nama: 'Jus Amma Super Lengkap', modal: 37000, jual: 45689 },
+      { nama: 'Lancar Baca', modal: 30000, jual: 36207 },
+      { nama: 'TBUN', modal: 44000, jual: 52629 }
+    ];
+
+    const select = document.getElementById('bukuSelect');
+
+    daftarBuku.forEach((buku, index) => {
+      const option = document.createElement('option');
+      option.value = index;
+      option.textContent = buku.nama;
+      select.appendChild(option);
+    });
+
+    function rupiah(angka) {
+      return 'Rp ' + angka.toLocaleString('id-ID');
+    }
+
+    function hitungProfit() {
+      const buku = daftarBuku[select.value];
+      const qty = parseInt(document.getElementById('qty').value) || 0;
+      const iklan = parseInt(document.getElementById('iklan').value) || 0;
+
+      const omzet = buku.jual * qty;
+      const totalModal = buku.modal * qty;
+      const profit = omzet - totalModal - iklan;
+
+      document.getElementById('hasil').style.display = 'block';
+
+      document.getElementById('hargaJual').innerHTML = `Harga Jual: <b>${rupiah(buku.jual)}</b>`;
+      document.getElementById('modal').innerHTML = `Total Modal: <b>${rupiah(totalModal)}</b>`;
+      document.getElementById('omzet').innerHTML = `Omzet: <b>${rupiah(omzet)}</b>`;
+      document.getElementById('biayaIklan').innerHTML = `Biaya Iklan: <b>${rupiah(iklan)}</b>`;
+      document.getElementById('profit').innerHTML = `Profit Bersih: ${rupiah(profit)}`;
+    }
+  </script>
+
+</body>
+</html>
